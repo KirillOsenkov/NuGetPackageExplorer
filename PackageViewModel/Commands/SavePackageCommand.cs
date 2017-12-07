@@ -26,6 +26,8 @@ namespace PackageExplorerViewModel
         {
             var readOnly = ViewModel.IsReadOnly;
 
+            var hasTokens = ViewModel.IsTokenized;
+
             var action = parameter as string;
             if (action == SaveAsAction || action == SaveMetadataAction)
             {
@@ -33,8 +35,13 @@ namespace PackageExplorerViewModel
                 readOnly = false;    
             }
 
+            if (action == SaveMetadataAction)
+            {
+                // allowed for tokenized things
+                hasTokens = false;
+            }
 
-            return !readOnly && !ViewModel.IsInEditFileMode;
+            return !readOnly && !hasTokens && !ViewModel.IsInEditFileMode;
         }
 
         public event EventHandler CanExecuteChanged;
